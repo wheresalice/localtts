@@ -1,0 +1,20 @@
+services:
+  piper:
+    image: mirror.gcr.io/artibex/piper-http:latest
+    container_name: piper
+    environment:
+      # - MODEL_DOWNLOAD_LINK=https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/en/en_US/kusal/medium/en_US-kusal-medium.onnx?download=true
+      - MODEL_DOWNLOAD_LINK=https://sfo3.digitaloceanspaces.com/bkmdls/cori-high.onnx
+    volumes:
+      - ./piper:/app/models
+    ports:
+      - 5000:5000
+    restart: unless-stopped
+  frontend:
+    image: mirror.gcr.io/caddy:latest
+    volumes:
+      - ./frontend:/usr/share/caddy
+    ports:
+      - 8000:80
+    restart: unless-stopped
+
